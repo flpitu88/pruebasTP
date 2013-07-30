@@ -17,7 +17,7 @@ int main(void){
 	M_RECURSOS* m_asignados = crearMatriz(cantPersonajes,cantRecursos);
 	M_RECURSOS* m_solicitados = crearMatriz(cantPersonajes,cantRecursos);
 	V_RECURSOS* r_totales = crearVector(cantRecursos);
-	t_queue* listaMarcados;
+	V_PERSONAJES* marcados = crearVectorPers(cantPersonajes);
 
 	// cargos matriz de asignados
 	(m_asignados->personajesId)[0] = '1';
@@ -113,6 +113,18 @@ int main(void){
 	V_RECURSOS* r_disponibles = crearVector(cantRecursos);
 
 	//cargo vector de disponibles
+	marcados->personajeId[0] = '1';
+	marcados->personajeId[1] = '2';
+	marcados->personajeId[2] = '3';
+	marcados->personajeId[3] = '4';
+	marcados->personajeId[4] = '5';
+	marcados->marcado[0] = 0;
+	marcados->marcado[1] = 0;
+	marcados->marcado[2] = 0;
+	marcados->marcado[3] = 0;
+	marcados->marcado[4] = 0;
+
+	//Inicializo marcados
 	r_disponibles->recursosId[0] = '1';
 	r_disponibles->recursosId[1] = '2';
 	r_disponibles->recursosId[2] = '3';
@@ -121,18 +133,16 @@ int main(void){
 	r_disponibles->cantidad[1] = 1;
 	r_disponibles->cantidad[2] = 1;
 	r_disponibles->cantidad[3] = 0;
-
-	listaMarcados = queue_create();
-
-	int mayor = esMayor(r_disponibles,m_solicitados,3);
-	printf("es mayor la fila %d:  %d\n",0,mayor);
-
-	marcarPersonaje(listaMarcados,'1');
-	int marcado = estaMarcado(listaMarcados,'1');
+/*
+	marcarPersonaje(marcados,'3');
+	int marcado = estaMarcado(marcados,'1');
 	printf("marcado vale %d\n",marcado);
 
-	int cumplida = puedeCumplirDemanda(r_disponibles,m_solicitados);
+	int cumplida = puedeCumplirDemanda(r_disponibles,m_solicitados,marcados);
 	printf("puede cumplir la demanda del %d\n",cumplida);
+*/
+
+	detectarDeadlock(m_asignados,m_solicitados,r_totales,r_disponibles,marcados);
 
 /*
 	while (puedeCumplirDemanda(r_disponibles,m_solicitados) != -1){

@@ -31,24 +31,35 @@ struct vector_de_recursos{
 };
 typedef struct vector_de_recursos V_RECURSOS;
 
+//.............................
+
+struct vector_de_personajes{
+	char* personajeId;
+	int* marcado;
+	int size;
+};
+typedef struct vector_de_personajes V_PERSONAJES;
+
 //--------------------------------------------------------------------
 
 V_RECURSOS* crearVector(int tamanio);
 void destruirVector(V_RECURSOS* rec_vector);
 M_RECURSOS* crearMatriz(int m,int n);
 void destruirMatriz(M_RECURSOS* rec_matriz);
+V_PERSONAJES* crearVectorPers(int tamanio);
+void destruirVectorPers(V_PERSONAJES* per_vector);
 //void cargarMatrizAsignados(NIVEL_INST* nivel,M_RECURSOS* m_asignados);
 //void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* m_solicitados);
 //void cargarVectorTotales(NIVEL_INST* nivel);
 //void cargarVectorDisponibles(NIVEL_INST* nivel, V_RECURSOS* recursosDispo);
-void marcarPersonaje(t_queue* marcados,char id); //funciona
-void informarBloqueados();
-int estaMarcado(t_queue* marcaddddzxczcos,char id);
-int puedeCumplirDemanda(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito);
+void marcarPersonaje(V_PERSONAJES* marcados,char id);
+void informarBloqueados(V_PERSONAJES* marcados);
+int estaMarcado(V_PERSONAJES* marcados,char id);
+int puedeCumplirDemanda(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito, V_PERSONAJES* marcados);
 int esMayor(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito,int i);
 int getFilaDelPersonaje(char id,M_RECURSOS* matriz);
 void imprimirMatriz(M_RECURSOS* matriz);
 void imprimirVector(V_RECURSOS* vector);
-int detectarDeadlock(M_RECURSOS* m_asignados,M_RECURSOS* m_solicitados,V_RECURSOS* r_totales,V_RECURSOS* r_disponibles);
+int detectarDeadlock(M_RECURSOS* m_asignados,M_RECURSOS* m_solicitados,V_RECURSOS* r_totales,V_RECURSOS* r_disponibles,V_PERSONAJES* marcados);
 
 #endif /* DETECDEADLOCK_H_ */

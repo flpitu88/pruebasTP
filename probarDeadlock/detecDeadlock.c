@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-t_queue* listaMarcados;
+int** marcados;
 int cantRecursos;
 int cantPersonajes;
 
@@ -20,15 +20,15 @@ int cantPersonajes;
 //void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* m_solicitados){}
 //void cargarVectorTotales(NIVEL_INST* nivel){}
 
-//para prueba
-void informarBloqueados(){
-	char* bloqueado = queue_pop(listaMarcados);
-	while (bloqueado != NULL){
-		printf("El proceso %c esta bloqueado\n",*bloqueado);
-		bloqueado = queue_pop(listaMarcados);
+
+void informarBloqueados(V_PERSONAJES* marcados){
+	int i=0;
+	for (i=0;i<marcados->size;i++){
+		if (marcados->marcado[i]==0){
+			printf("El personaje %c se encuentra bloqueado\n",marcados->personajeId[i]);
+		}
 	}
 }
-
 
 //-------------------------------------------------------------
 
@@ -74,6 +74,24 @@ void destruirMatriz(M_RECURSOS* rec_matriz){
 
 //-------------------------------------------------------------
 
+V_PERSONAJES* crearVectorPers(int tamanio){
+	V_PERSONAJES* per_vector = malloc(sizeof(V_PERSONAJES));
+	per_vector->marcado = malloc(tamanio*sizeof(int));
+	per_vector->personajeId = malloc(sizeof(char[tamanio]));
+	per_vector->size=tamanio;
+	return per_vector;
+}
+
+//-------------------------------------------------------------
+
+void destruirVectorPers(V_PERSONAJES* per_vector){
+	free(per_vector->personajeId);
+	free(per_vector->marcado);
+	free(per_vector);
+}
+
+//-------------------------------------------------------------
+
 /*
 void cargarVectorDisponibles(NIVEL_INST* nivel, V_RECURSOS* recursosDispo){
 	if (nivel->listaItems != NULL){
@@ -108,20 +126,28 @@ int getFilaDelPersonaje(char id,M_RECURSOS* matriz){
 
 //-------------------------------------------------------------
 
-int estaMarcado(t_queue* marcados,char id){
-	int tamanio = queue_size(marcados);
-	int encontrado = -1;
-	int i;
-	for (i=0;i<tamanio;i++){
-		char* aux = queue_peek(marcados);
-		if
+int estaMarcado(V_PERSONAJES* marcados,char id){
+	int i=0;
+	int posicionId;
+	for (i=0;i<marcados->size;i++){
+		if (marcados->personajeId[i] == id){
+			posicionId=i;
+		}
 	}
+	return marcados->marcado[posicionId];
 }
 
 //-------------------------------------------------------------
 
-void marcarPersonaje(t_queue* marcados,char id){
-	queue_push(marcados,&id);
+void marcarPersonaje(V_PERSONAJES* marcados,char id){
+	int i=0;
+	int posicionId;
+	for (i=0;i<marcados->size;i++){
+		if (marcados->personajeId[i] == id){
+			posicionId=i;
+		}
+	}
+	marcados->marcado[posicionId] = 1;
 }
 
 
@@ -141,13 +167,12 @@ int esMayor(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito,int i){
 
 //-------------------------------------------------------------
 
-int puedeCumplirDemanda(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito){
+int puedeCumplirDemanda(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito, V_PERSONAJES* marcados){
 	int i=0;
-	int j=0;
 	int aux=0;
 	for (i=0;i<recSolicito->xSize;i++){
 		aux = esMayor(recursosDispo,recSolicito,i);
-		if (aux==1){
+		if ((aux==1)&&(estaMarcado(marcados,recSolicito->personajesId[i])==0)){
 			return i;
 		}
 	}
@@ -156,23 +181,22 @@ int puedeCumplirDemanda(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito){
 
 //-------------------------------------------------------------
 
-int detectarDeadlock(M_RECURSOS* m_asignados,M_RECURSOS* m_solicitados,V_RECURSOS* r_totales,V_RECURSOS* r_disponibles){
+int detectarDeadlock(M_RECURSOS* m_asignados,M_RECURSOS* m_solicitados,V_RECURSOS* r_totales,V_RECURSOS* r_disponibles,V_PERSONAJES* marcados){
 
-	listaMarcados = queue_create();
-
-	while (puedeCumplirDemanda(r_disponibles,m_solicitados) != -1){
-		int posCumple = puedeCumplirDemanda(r_disponibles,m_solicitados);
+	while (puedeCumplirDemanda(r_disponibles,m_solicitados,marcados) != -1){
+		int posCumple = puedeCumplirDemanda(r_disponibles,m_solicitados,marcados);
 		char idCumple = m_solicitados->personajesId[posCumple];
 
 		int i=0;
-		for (i=0;i<cantRecursos;i++){
-			r_disponibles->cantidad[i] = r_disponibles->cantidad[i] + (m_asignados->cantidad)[posCumple][i];
+		for (i=0;i<m_solicitados->ySize;i++){
+			(r_disponibles->cantidad)[i] += (m_asignados->cantidad)[posCumple][i];
+			//printf("la posicion %d del disponible vale %d\n",i,(r_disponibles->cantidad)[i]);
 		}
-		marcarPersonaje(listaMarcados,idCumple);
+		marcarPersonaje(marcados,idCumple);
 
 	}
 
-	informarBloqueados();
+	informarBloqueados(marcados);
 
 	return 1;
 }
