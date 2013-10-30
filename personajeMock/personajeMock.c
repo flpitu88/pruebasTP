@@ -12,7 +12,7 @@
 #define PUERTO_SERVIDOR 5000
 #define IP_SERVIDOR "127.0.0.1"
 
-void imprimirRecibido(struct NIPC recibido){
+void imprimirMensaje(struct NIPC recibido){
     printf("Recibido mensaje del tipo: %d\n",recibido.Type);
     printf("Mje recibido: %s\n",recibido.Payload);
     printf("Longitud recibido: %d\n",recibido.Length);
@@ -41,12 +41,12 @@ int main(void){
     //el personaje intentaria conectarse al nivel
     mandarMensaje(&id,NIVEL_MJE_AGREGARPJE,socketServidor);
     datosRecibidos = esperarDatos(socketServidor);
-    imprimirRecibido(datosRecibidos);
+    imprimirMensaje(datosRecibidos);
 
     //el personaje pide ubicacion de un recurso
     mandarMensaje(&recBusco,NIVEL_MJE_GETPOSMUEVO,socketServidor);
     datosRecibidos = esperarDatos(socketServidor);
-    imprimirRecibido(datosRecibidos);
+    imprimirMensaje(datosRecibidos);
         }
     }
 
