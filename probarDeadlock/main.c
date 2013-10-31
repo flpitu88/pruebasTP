@@ -35,8 +35,9 @@ int main(void){
 
 	M_RECURSOS* m_asignados = crearMatriz(cantPersonajes,cantRecursos);
 	M_RECURSOS* m_solicitados = crearMatriz(cantPersonajes,cantRecursos);
-	V_RECURSOS* r_totales = crearVector(cantRecursos);/*
-	V_PERSONAJES* marcados = crearVectorPers(cantPersonajes); */
+	V_RECURSOS* r_totales = crearVector(cantRecursos);
+	V_PERSONAJES* marcados = crearVectorPers(cantPersonajes);
+	V_RECURSOS* r_disponibles = crearVector(cantRecursos);
 
 	cargarVectorTotales(nivel,r_totales);
 
@@ -147,7 +148,7 @@ int main(void){
 	r_totales->cantidad[2] = 1;
 	r_totales->cantidad[3] = 2;
 
-	V_RECURSOS* r_disponibles = crearVector(cantRecursos);
+
 
 	//cargo vector de disponibles
 	marcados->personajeId[0] = '1';
@@ -187,17 +188,17 @@ int main(void){
 	imprimirVector(r_totales);
 	printf("\n");
 
-
+ HASTA ESTE
+*/
 
 	detectarDeadlock(m_asignados,m_solicitados,r_totales,r_disponibles,marcados);
 
- HASTA ESTE
-*/
-	/*	destruirMatriz(m_asignados);
+
+		destruirMatriz(m_asignados);
 		destruirMatriz(m_solicitados);
 		destruirVector(r_totales);
 		destruirVector(r_disponibles);
-*/
+
 		return 1;
 }
 
