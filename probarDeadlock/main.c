@@ -19,18 +19,41 @@ int main(void){
 
 	printConfig(nivel);
 
+	agregarPersonajeEnLista(nivel,'#');
+	agregarPersonajeEnLista(nivel,'$');
+	agregarPersonajeEnLista(nivel,'@');
+
 	int cantRecursos = getCantRecursos(nivel);
 	int cantPersonajes = getCantPersonajes(nivel);
 
-	/* BORRAR ESTE
+	printf("la cantidad de personajes es: %d\n",cantPersonajes);
+	printf("la cantidad de recursos es: %d\n",cantRecursos);
+
+
 	//int cantRecursos = 4;
 	//int cantPersonajes = 4;
 
-	M_RECURSOS* m_asignados = crearMatriz(cantPersonajes,cantRecursos);
+	M_RECURSOS* m_asignados = crearMatriz(cantPersonajes,cantRecursos); /*
 	M_RECURSOS* m_solicitados = crearMatriz(cantPersonajes,cantRecursos);
 	V_RECURSOS* r_totales = crearVector(cantRecursos);
-	V_PERSONAJES* marcados = crearVectorPers(cantPersonajes);
+	V_PERSONAJES* marcados = crearVectorPers(cantPersonajes); */
 
+	tomarRecurso(nivel,'F','#');
+	tomarRecurso(nivel,'C','#');
+	tomarRecurso(nivel,'H','#');
+	tomarRecurso(nivel,'C','$');
+	tomarRecurso(nivel,'H','$');
+	tomarRecurso(nivel,'F','@');
+	tomarRecurso(nivel,'H','@');
+
+
+	cargarMatrizAsignados(nivel,m_asignados); // Funciona
+
+	printf("Matriz de asignados----------------\n");
+	imprimirMatriz(m_asignados);
+	printf("\n");
+
+	/* BORRAR ESTE
 	// cargos matriz de asignados
 	(m_asignados->personajesId)[0] = '1';
 	(m_asignados->personajesId)[1] = '2';
