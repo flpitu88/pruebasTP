@@ -8,8 +8,8 @@
 #ifndef DETECDEADLOCK_H_
 #define DETECDEADLOCK_H_
 
-//#include "libNivel.h"
-#include "commons/collections/queue.h"
+#include "/home/utnso/git/tp-2013-2c-sockete-s/procNivel/nivelTad.h"
+#include "/home/utnso/git/tp-2013-2c-sockete-s/librerias/commons/collections/queue.h"
 
 //---------------------------TADS-----------------------------------
 
@@ -48,15 +48,17 @@ M_RECURSOS* crearMatriz(int m,int n);
 void destruirMatriz(M_RECURSOS* rec_matriz);
 V_PERSONAJES* crearVectorPers(int tamanio);
 void destruirVectorPers(V_PERSONAJES* per_vector);
-//void cargarMatrizAsignados(NIVEL_INST* nivel,M_RECURSOS* m_asignados);
-//void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* m_solicitados);
-//void cargarVectorTotales(NIVEL_INST* nivel);
-//void cargarVectorDisponibles(NIVEL_INST* nivel, V_RECURSOS* recursosDispo);
+void cargarMatrizAsignados(NIVEL_INST* nivel,M_RECURSOS* m_asignados);
+void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* m_solicitados);
+void cargarVectorTotales(NIVEL_INST* nivel);
+void cargarVectorDisponibles(NIVEL_INST* nivel, V_RECURSOS* recursosDispo);
 void marcarPersonaje(V_PERSONAJES* marcados,char id);
 void informarBloqueados(V_PERSONAJES* marcados);
 int estaMarcado(V_PERSONAJES* marcados,char id);
 int puedeCumplirDemanda(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito, V_PERSONAJES* marcados);
 int esMayor(V_RECURSOS* recursosDispo, M_RECURSOS* recSolicito,int i);
+int getCantPersonajes(NIVEL_INST* nivel);
+int getCantRecursos(NIVEL_INST* nivel);
 int getFilaDelPersonaje(char id,M_RECURSOS* matriz);
 void imprimirMatriz(M_RECURSOS* matriz);
 void imprimirVector(V_RECURSOS* vector);

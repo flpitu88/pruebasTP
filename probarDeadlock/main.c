@@ -133,7 +133,24 @@ int main(void){
 	r_disponibles->cantidad[1] = 1;
 	r_disponibles->cantidad[2] = 1;
 	r_disponibles->cantidad[3] = 0;
-/*
+
+	printf("Matriz de asignados----------------\n");
+	imprimirMatriz(m_asignados);
+	printf("\n");
+
+	printf("Matriz de solicitados--------------\n");
+	imprimirMatriz(m_solicitados);
+	printf("\n");
+
+	printf("Vector de recursos disponibles-----\n");
+	imprimirVector(r_disponibles);
+	printf("\n");
+
+	printf("Vector de recursos totales---------\n");
+	imprimirVector(r_totales);
+	printf("\n");
+
+	/*
 	marcarPersonaje(marcados,'3');
 	int marcado = estaMarcado(marcados,'1');
 	printf("marcado vale %d\n",marcado);
