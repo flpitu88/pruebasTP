@@ -33,8 +33,8 @@ int main(void){
 	//int cantRecursos = 4;
 	//int cantPersonajes = 4;
 
-	M_RECURSOS* m_asignados = crearMatriz(cantPersonajes,cantRecursos); /*
-	M_RECURSOS* m_solicitados = crearMatriz(cantPersonajes,cantRecursos);
+	M_RECURSOS* m_asignados = crearMatriz(cantPersonajes,cantRecursos);
+	M_RECURSOS* m_solicitados = crearMatriz(cantPersonajes,cantRecursos);/*
 	V_RECURSOS* r_totales = crearVector(cantRecursos);
 	V_PERSONAJES* marcados = crearVectorPers(cantPersonajes); */
 
@@ -46,11 +46,23 @@ int main(void){
 	tomarRecurso(nivel,'F','@');
 	tomarRecurso(nivel,'H','@');
 
+	T_PERSONAJE* personaje1 = getPunteroPersonaje(nivel,'#');
+	personaje1->recBloqueo = 'F';
+	T_PERSONAJE* personaje2 = getPunteroPersonaje(nivel,'$');
+	personaje2->recBloqueo = 'H';
+	T_PERSONAJE* personaje3 = getPunteroPersonaje(nivel,'@');
+	personaje3->recBloqueo = 'F';
 
 	cargarMatrizAsignados(nivel,m_asignados); // Funciona
 
 	printf("Matriz de asignados----------------\n");
 	imprimirMatriz(m_asignados);
+	printf("\n");
+
+	cargarMatrizSolicitados(nivel,m_solicitados);
+
+	printf("Matriz de solicitados--------------\n");
+	imprimirMatriz(m_solicitados);
 	printf("\n");
 
 	/* BORRAR ESTE
