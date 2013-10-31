@@ -49,7 +49,7 @@
 	void list_remove_and_destroy_element(t_list *, int index, void(*element_destroyer)(void*));
 
 	void *list_remove_by_condition(t_list *, bool(*condition)(void*));
-	void list_remove_and_destroy_element_by_condition(t_list *, bool(*condition)(void*), void(*element_destroyer)(void*));
+	void list_remove_and_destroy_by_condition(t_list *, bool(*condition)(void*), void(*element_destroyer)(void*));
 
 	void list_clean(t_list *);
 	void list_clean_and_destroy_elements(t_list *self, void(*element_destroyer)(void*));
@@ -61,6 +61,10 @@
 	int list_is_empty(t_list *);
 
 	void list_sort(t_list *, bool (*comparator)(void *, void *));
+	
+	int list_count_satisfying(t_list* self, bool(*condition)(void*));
+	bool list_any_satisfy(t_list* self, bool(*condition)(void*));
+	bool list_all_satisfy(t_list* self, bool(*condition)(void*));
 
 #endif /*LIST_H_*/
 

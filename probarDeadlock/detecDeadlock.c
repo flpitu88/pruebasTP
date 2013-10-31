@@ -58,7 +58,7 @@ void cargarEtiquetasMatriz(NIVEL_INST* nivel,M_RECURSOS* matriz){
 }
 
 // ------       --------          --------         ---------      ---------
-
+/*
 int getCantidadRecXId(NIVEL_INST* nivel, char idPer, char idRec){
 	int total = 0;
 	T_PERSONAJE* personaje = getPunteroPersonaje(nivel,idPer);
@@ -74,9 +74,9 @@ int getCantidadRecXId(NIVEL_INST* nivel, char idPer, char idRec){
 	}
 	return total;
 }
-
+*/ //Descomentar
 // ------       --------          --------         ---------      ---------
-
+/*
 void cargarCantidadAsignados(NIVEL_INST* nivel,M_RECURSOS* matriz){
 	int i=0;
 	int j=0;
@@ -89,14 +89,14 @@ void cargarCantidadAsignados(NIVEL_INST* nivel,M_RECURSOS* matriz){
 		}
 	}
 }
-
+*/ // descomentar cuando se usen matrices
 //-------------------------------------------------------------
 
 void cargarMatrizAsignados(NIVEL_INST* nivel,M_RECURSOS* matriz){
 	cargarEtiquetasMatriz(nivel,matriz);
-	cargarCantidadAsignados(nivel,matriz);
+	//cargarCantidadAsignados(nivel,matriz);
 }
-
+//descomentar cuando se usen matrices
 //-------------------------------------------------------------
 
 int getIndiceRecurso(M_RECURSOS* matriz, char idRec){
@@ -111,7 +111,7 @@ int getIndiceRecurso(M_RECURSOS* matriz, char idRec){
 }
 
 //-------------------------------------------------------------
-
+/*
 void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* matriz){
 	cargarEtiquetasMatriz(nivel,matriz);
 	int cantPers = matriz->xSize;
@@ -124,7 +124,7 @@ void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* matriz){
 		(matriz->cantidad)[i][indice] ++;
 	}
 }
-
+*/ //descomentar cuando se use nivel
 //-------------------------------------------------------------
 
 //void cargarVectorTotales(NIVEL_INST* nivel){}
