@@ -50,7 +50,7 @@ V_PERSONAJES* crearVectorPers(int tamanio);
 void destruirVectorPers(V_PERSONAJES* per_vector);
 void cargarMatrizAsignados(NIVEL_INST* nivel,M_RECURSOS* m_asignados);
 void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* m_solicitados);
-void cargarVectorTotales(NIVEL_INST* nivel);
+void cargarVectorTotales(NIVEL_INST* nivel, V_RECURSOS* r_totales);
 void cargarVectorDisponibles(NIVEL_INST* nivel, V_RECURSOS* recursosDispo);
 void marcarPersonaje(V_PERSONAJES* marcados,char id);
 void informarBloqueados(V_PERSONAJES* marcados);

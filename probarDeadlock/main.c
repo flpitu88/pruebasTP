@@ -34,9 +34,15 @@ int main(void){
 	//int cantPersonajes = 4;
 
 	M_RECURSOS* m_asignados = crearMatriz(cantPersonajes,cantRecursos);
-	M_RECURSOS* m_solicitados = crearMatriz(cantPersonajes,cantRecursos);/*
-	V_RECURSOS* r_totales = crearVector(cantRecursos);
+	M_RECURSOS* m_solicitados = crearMatriz(cantPersonajes,cantRecursos);
+	V_RECURSOS* r_totales = crearVector(cantRecursos);/*
 	V_PERSONAJES* marcados = crearVectorPers(cantPersonajes); */
+
+	cargarVectorTotales(nivel,r_totales);
+
+	printf("Vector de recursos totales---------\n");
+	imprimirVector(r_totales);
+	printf("\n");
 
 	tomarRecurso(nivel,'F','#');
 	tomarRecurso(nivel,'C','#');

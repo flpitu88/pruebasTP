@@ -20,6 +20,22 @@ int cantPersonajes;
 //-------------------------------------------------------------
 //Auxiliar
 
+void cargarEtiquetasVecRecursos(NIVEL_INST* nivel, V_RECURSOS* vector){
+	int i=0;
+	int j=0;
+	t_list* listaAux = list_create();
+	int cantElem = list_size(nivel->listaItems);
+	listaAux = list_take(nivel->listaItems,cantElem);
+	for (i=0;i<cantElem;i++){
+		ITEM_NIVEL* item = (ITEM_NIVEL*)list_get(listaAux,i);
+		if (item->item_type == RECURSO_ITEM_TYPE){
+			vector->recursosId[j] = item->id;
+			j++;
+		}
+	}
+	list_destroy(listaAux);
+}
+
 void cargarEtiquetasRecursos(NIVEL_INST* nivel, M_RECURSOS* matriz){
 	int i=0;
 	int j=0;
@@ -127,8 +143,14 @@ void cargarMatrizSolicitados(NIVEL_INST* nivel, M_RECURSOS* matriz){
 
 //-------------------------------------------------------------
 
-void cargarVectorTotales(NIVEL_INST* nivel){
-
+void cargarVectorTotales(NIVEL_INST* nivel, V_RECURSOS* r_totales){
+	cargarEtiquetasVecRecursos(nivel,r_totales);
+	int i=0;
+	int cantRec = r_totales->size;
+	for (i=0;i<cantRec;i++){
+		ITEM_NIVEL* item = getPunteroItem(nivel, r_totales->recursosId[i]);
+		r_totales->cantidad[i] = item->quantity;
+	}
 }
 
 //-------------------------------------------------------------
