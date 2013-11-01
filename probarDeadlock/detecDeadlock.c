@@ -20,6 +20,22 @@ int cantPersonajes;
 //-------------------------------------------------------------
 //Auxiliar
 
+void cargarEtiquetasVecPersonajes(NIVEL_INST* nivel, V_PERSONAJES* vector){
+	int i=0;
+	int j=0;
+	t_list* listaAux = list_create();
+	int cantElem = list_size(nivel->listaItems);
+	listaAux = list_take(nivel->listaItems,cantElem);
+	for (i=0;i<cantElem;i++){
+		ITEM_NIVEL* item = (ITEM_NIVEL*)list_get(listaAux,i);
+		if (item->item_type == PERSONAJE_ITEM_TYPE){
+			vector->personajeId[j] = item->id;
+			j++;
+		}
+	}
+	list_destroy(listaAux);
+}
+
 void cargarEtiquetasVecRecursos(NIVEL_INST* nivel, V_RECURSOS* vector){
 	int i=0;
 	int j=0;
@@ -160,6 +176,8 @@ void informarBloqueados(V_PERSONAJES* marcados){
 	for (i=0;i<marcados->size;i++){
 		if (marcados->marcado[i]==0){
 			printf("El personaje %c se encuentra bloqueado\n",marcados->personajeId[i]);
+		} else if (marcados->marcado[i]==1){
+			printf("El personaje %c puede ejecutarse\n",marcados->personajeId[i]);
 		}
 	}
 }
@@ -230,26 +248,13 @@ V_PERSONAJES* crearVectorPers(int tamanio){
 }
 
 //-------------------------------------------------------------
-/*
+
 void destruirVectorPers(V_PERSONAJES* per_vector){
-	free(per_vector->personajeId);if (nivel->listaItems != NULL){
-		ITEM_NIVEL* aux = nivel->listaItems;
-		int i=0;
-		while (aux != NULL){
-			if (aux->item_type == '1'){
-				recursosDispo->recursosId[i] = aux->id;
-				recursosDispo->cantidad[i] = aux->quantity;
-			}
-			aux = aux->next;
-			i++;
-			}
-		} else {
-			printf("Error, lista vacia de items\n");
-		}
 	free(per_vector->marcado);
+	free(per_vector->personajeId);
 	free(per_vector);
 }
-*/
+
 //-------------------------------------------------------------
 
 
@@ -402,6 +407,15 @@ void imprimirVector(V_RECURSOS* vector){
 	printf("\n");
 	for (i=0; i<vector->size; i++)
 				printf("\t%d", (vector->cantidad)[i]);
+}
+
+//-------------------------------------------------------------
+
+void imprimirVectorPers(V_PERSONAJES* vector){
+	int i;
+	printf("\n");
+	for (i=0; i<vector->size; i++)
+				printf("\t%d", (vector->marcado)[i]);
 }
 
 
