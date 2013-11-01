@@ -72,6 +72,12 @@ int main(void){
 	imprimirMatriz(m_solicitados);
 	printf("\n");
 
+	cargarVectorDisponibles(m_asignados,r_totales,r_disponibles);
+
+	printf("Vector de recursos disponibles---------\n");
+	imprimirVector(r_disponibles);
+	printf("\n");
+
 	/* BORRAR ESTE
 	// cargos matriz de asignados
 	(m_asignados->personajesId)[0] = '1';

@@ -230,18 +230,9 @@ V_PERSONAJES* crearVectorPers(int tamanio){
 }
 
 //-------------------------------------------------------------
-
-void destruirVectorPers(V_PERSONAJES* per_vector){
-	free(per_vector->personajeId);
-	free(per_vector->marcado);
-	free(per_vector);
-}
-
-//-------------------------------------------------------------
-
 /*
-void cargarVectorDisponibles(NIVEL_INST* nivel, V_RECURSOS* recursosDispo){
-	if (nivel->listaItems != NULL){
+void destruirVectorPers(V_PERSONAJES* per_vector){
+	free(per_vector->personajeId);if (nivel->listaItems != NULL){
 		ITEM_NIVEL* aux = nivel->listaItems;
 		int i=0;
 		while (aux != NULL){
@@ -255,8 +246,28 @@ void cargarVectorDisponibles(NIVEL_INST* nivel, V_RECURSOS* recursosDispo){
 		} else {
 			printf("Error, lista vacia de items\n");
 		}
+	free(per_vector->marcado);
+	free(per_vector);
 }
 */
+//-------------------------------------------------------------
+
+
+void cargarVectorDisponibles(M_RECURSOS* asignados, V_RECURSOS* totales, V_RECURSOS* disponibles){
+	int cantRec = disponibles->size;
+	int cantPers = asignados->xSize;
+	int subtRec = 0;
+	int i=0;
+	int j=0;
+	for (i=0;i<cantRec;i++){
+		subtRec = totales->cantidad[i];
+		for (j=0;j<cantPers;j++){
+			subtRec = subtRec - (asignados->cantidad)[j][i];
+		}
+		disponibles->cantidad[i] = subtRec;
+	}
+}
+
 
 //-------------------------------------------------------------
 
