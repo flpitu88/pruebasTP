@@ -8,7 +8,7 @@
 #include "/home/utnso/git/tp-2013-2c-sockete-s/librerias/libSockets/cliente.c"
 #include "/home/utnso/git/tp-2013-2c-sockete-s/librerias/commons/string.c"
 #include "/home/utnso/git/tp-2013-2c-sockete-s/librerias/libSockets/comunes.c"
-#include "socket.c"
+#include "socket.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
@@ -98,7 +98,7 @@ int main(void){
 			FD_ZERO(&master); // borra el conjunto maestro
 			FD_ZERO(&read_fds);// borra el conjunto temporal
 
-			listener = socket_crearServidor("127.0.0.3",puertoPlanificador);
+			listener = socket_crearServidor("127.0.0.3",puertoPlanificador+50);
 			FD_SET(listener, &master); //agrego el listener al master
 			fdmax = listener;
 
@@ -109,6 +109,10 @@ int main(void){
 
 			inotify_add_watch(file_descriptor_inotify,PATH_CONFIG, IN_MODIFY);
 			char buffer[BUF_LEN];
+			FD_SET(socketCliente, &master); //METO SOCKET DEL PLANIFICADOR
+			if (socketCliente > fdmax) {
+				fdmax = socketCliente;
+			}
 			FD_SET(file_descriptor_inotify, &master); // METO AL DESCRIPTOR EN EL MASTER
 			if (file_descriptor_inotify > fdmax) {
 				fdmax = file_descriptor_inotify;
@@ -181,10 +185,11 @@ int main(void){
 					} else { // gestionar datos de un cliente
 							printf("Recibi mensaje de un cliente\n");
 								}
-							}
-						}// end if de tengo datos
-					}//end for
-				}//end while
+							}// end if de tengo datos
+						}//end for
+					}//end while
+				close(puertoPlanificador+50);
+				}
 
 			//ITERACION FIN---------------------------------------------------
 
