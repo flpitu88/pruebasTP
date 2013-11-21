@@ -159,8 +159,7 @@ int main(void){
 										 "\n########################################################################\n");
 								}
 
-							} else
-								if(i == file_descriptor_inotify){
+							} else if(i == file_descriptor_inotify){
 
 
 						          int length = read(file_descriptor_inotify, buffer, BUF_LEN);
@@ -182,8 +181,12 @@ int main(void){
 						          }
 
 
-					} else { // gestionar datos de un cliente
+					} else if (i == socketCliente){ // gestionar datos de un cliente
 							printf("Recibi mensaje de un cliente\n");
+							datosRecibidos = esperarDatos(i);
+							imprimirMensaje(datosRecibidos);
+							mandarMensaje("Tu respuesta",222,i);
+							sleep(3);
 								}
 							}// end if de tengo datos
 						}//end for
