@@ -31,6 +31,7 @@ struct NIPC datosAEnviar;
 struct NIPC reportDeadlock;
 struct NIPC reportEnemigo;
 struct NIPC reportNotify;
+
 //----------- Parametros de conexion de nivel como cliente a plataforma --------------
 int socketCliente;
 struct sockaddr_in socketInfo;
@@ -38,7 +39,6 @@ struct sockaddr_in socketInfo;
 int iExitCode = 0; // variable global, cada error esperado se informa con esta variable
 int puertoPlanificador;
 int file_descriptor_inotify;
-
 //---------------------------------------------------------------------------------------------------
 
 void imprimirMensaje(struct NIPC recibido){
@@ -93,18 +93,104 @@ int main(void){
 			int listener; // descriptor de socket a la escucha
 			struct sockaddr_in remoteaddr; // direcciï¿½ï¿½n del cliente
 			int newfd; // descriptor de socket de nueva conexiï¿½ï¿½n aceptada
-			int nbytes;
 			socklen_t addrlen;
 			int i;
 			FD_ZERO(&master); // borra el conjunto maestro
 			FD_ZERO(&read_fds);// borra el conjunto temporal
 
-			listener = socket_crearServidor("127.0.0.1", PUERTO); //aca ya estï¿½ï¿½ hecho el bind y el listen.
+			listener = socket_crearServidor("127.0.0.3",puertoPlanificador);
 			FD_SET(listener, &master); //agrego el listener al master
 			fdmax = listener;
 
+			int file_descriptor_inotify;
+			if ((file_descriptor_inotify = inotify_init()) < 0) {
+				printf("Da error creacion inotify\n");
+					}
+
+			inotify_add_watch(file_descriptor_inotify,PATH_CONFIG, IN_MODIFY);
+			char buffer[BUF_LEN];
+			FD_SET(file_descriptor_inotify, &master); // METO AL DESCRIPTOR EN EL MASTER
+			if (file_descriptor_inotify > fdmax) {
+				fdmax = file_descriptor_inotify;
+			}
+
+			//ITERACION PRINCIPIO--------------------------------
+
+			while(1) {
+
+					read_fds = master; //paso el master a temporal
+					if (select(fdmax + 1, &read_fds, NULL, NULL, NULL ) == -1) {
+
+						printf("Error en el select\n");
+						exit(1);
+					}
+
+					// explorar conexiones existentes en busca de datos que leer
+					for (i = 0; i <= fdmax; i++) {
+						if (FD_ISSET(i, &read_fds)) { //tengo datos
+							if (i == listener) { // gestionar nuevas conexiones
+
+								addrlen = sizeof(remoteaddr);
+								if ((newfd = accept(listener,(struct sockaddr*) &remoteaddr, &addrlen)) != -1) {//lo acept��
+									FD_SET(newfd, &master); // a��adir al conjunto maestro
+									if (newfd > fdmax) { // actualizar el m��ximo
+										fdmax = newfd;
+									}
+
+									printf(	"\n########################################################################\n"
+											"ORQUESTADOR: Nueva Conexion ACEPTADA de la IP: %s en el  "
+											"socket %d\n"
+											"\n########################################################################\n",
+											inet_ntoa(remoteaddr.sin_addr), //imprime IP del que se conecta y el descriptor del socket asociado.
+											newfd);
+
+									// Ac�� lo unico que se hace es agregar el descriptor al master, lo cual ya fue hecho un par de lineas arriba en
+									// FD_SET(newfd, &master). Luego los gestionar�� cuando me env��en los mensajes correspondientes.
+
+
+								} else{
+
+										printf("\n########################################################################\n"
+										 "Error al hacer Accept Orquestador"
+										 "\n########################################################################\n");
+								}
+
+							} else
+								if(i == file_descriptor_inotify){
+
+
+						          int length = read(file_descriptor_inotify, buffer, BUF_LEN);
+
+						          if (length < 0) {
+						            perror("read");
+						          }
+
+						          int offset = 0;
+						          while (offset < length / 2) {
+						            struct inotify_event *event = (struct inotify_event *) &buffer[offset];
+						            if (event->mask & IN_MODIFY) {
+
+						            	printf("Se modifico archivo de configuracion\n");
+
+						                 offset = length / 2;
+
+						            }
+						          }
+
+
+					} else { // gestionar datos de un cliente
+							printf("Recibi mensaje de un cliente\n");
+								}
+							}
+						}// end if de tengo datos
+					}//end for
+				}//end while
+
+			//ITERACION FIN---------------------------------------------------
+
 		}
-	}
 	cerrar_cliente(socketCliente);
 	return 0;
-}
+	}
+
+
