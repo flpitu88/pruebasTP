@@ -32,7 +32,7 @@ int leerEnteroxTeclado(char* mensaje){
 	int leido = -1;
 	printf("Ingrese %s \n",mensaje); //Solicitando al usuario que ingrese un numero
 	scanf("%d",&leido); //Leyendo el número solicitado
-	printf("El numero que ingreso es %d", leido); //Mostrando el número ingresado por teclado
+	printf("El numero que ingreso es %d \n", leido); //Mostrando el número ingresado por teclado
 	return leido;
 }
 
@@ -49,7 +49,7 @@ void levantarConfig(CONFIG_T* config,char* path){
 		int cantdisp = leerEnteroxTeclado(" la cantidad de dispositivos");
 		config->cant_io = cantdisp;
 	}
-
+/*
 	//Cargo los retardos de cada dispositivo. Si no esta aclarado, se ingresa por teclado
 	int i=0;
 	char* clave = "HIO[";
@@ -68,7 +68,7 @@ void levantarConfig(CONFIG_T* config,char* path){
 			config->retardo_io[i] = retardo;
 		}
 	}
-
+*/
 	//Obtengo el numero de puerto de programas
 	if ( config_has_property(conf,"Puerto_Prog") ){
 		int aux = config_get_int_value(conf,"Puerto_Prog");
